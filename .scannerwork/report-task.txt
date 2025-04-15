@@ -1,0 +1,6 @@
+projectKey=SecureAppCA2
+serverUrl=http://localhost:9000
+serverVersion=25.4.0.105899
+dashboardUrl=http://localhost:9000/dashboard?id=SecureAppCA2
+ceTaskId=85c30157-cbde-452f-8f43-0c8f84e5b729
+ceTaskUrl=http://localhost:9000/api/ce/task?id=85c30157-cbde-452f-8f43-0c8f84e5b729
