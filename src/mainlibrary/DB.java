@@ -5,6 +5,8 @@
  */
 package mainlibrary;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,26 +18,31 @@ import java.util.Properties;
  */
 public class DB {
 
-    public static String user = "root";
-    public static String connection = "jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false";
-    
-    public static Connection getConnection() {
-        Connection con = null;
-        try {
-            Properties props = new Properties();
-            props.put("user", user);
-     //change the password to the password  ↓↓↓↓↓↓↓↓↓↓↓   you enteredwhen setting up mysql
-            props.put("password", "Yash@09061998");
-            props.put("useUnicode", "true");
-            props.put("useServerPrepStmts", "false"); // use client-side prepared statement
-            props.put("characterEncoding", "UTF-8"); // ensure charset is utf8 here
+    private static Properties properties = new Properties();
 
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(connection, props);
-        } catch (Exception e) {
-            System.out.println(e);
+    static {
+        try (FileInputStream input = new FileInputStream("config.properties")) {
+            properties.load(input);  // Load configuration from file
+        } catch (IOException ex) {
+            ex.printStackTrace();  // Handle potential exceptions (could log to a file)
         }
-        return con;
     }
 
+    public static Connection getConnection() {
+        try {
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+            String url = properties.getProperty("db.url");
+
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // Return the connection
+            return DriverManager.getConnection(url, user, password);
+
+        } catch (Exception e) {
+            e.printStackTrace();  // Log any exceptions that occur
+        }
+        return null;  // Return null if the connection fails
+    }
 }
