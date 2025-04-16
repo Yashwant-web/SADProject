@@ -4,52 +4,86 @@ import java.sql.*;
 
 public class LibrarianDao {
 
+    // Save new librarian details to the database
     public static int save(String name, String password, String email, String address, String city, String contact) {
         int status = 0;
         try {
-
+            // Get database connection
             Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("insert into librarian(name,password,email,address,city,contact) values(?,?,?,?,?,?)");
+
+            // SQL query to insert librarian details into the database
+            String query = "INSERT INTO librarian (name, password, email, address, city, contact) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            // Set the parameters for the prepared statement
             ps.setString(1, name);
             ps.setString(2, password);
             ps.setString(3, email);
             ps.setString(4, address);
             ps.setString(5, city);
             ps.setString(6, contact);
+
+            // Execute the update (insert) query
             status = ps.executeUpdate();
+
+            // Close the connection
             con.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();  // Print the error details (could also log it)
         }
         return status;
     }
 
+    // Delete librarian by ID from the database
     public static int delete(int id) {
         int status = 0;
         try {
+            // Get database connection
             Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("delete from Librarian where id=?");
+
+            // SQL query to delete librarian by ID
+            String query = "DELETE FROM librarian WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            // Set the ID parameter
             ps.setInt(1, id);
+
+            // Execute the delete query
             status = ps.executeUpdate();
+
+            // Close the connection
             con.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();  // Print the error details (could also log it)
         }
         return status;
     }
 
+    // Validate librarian's username and password
     public static boolean validate(String name, String password) {
         boolean status = false;
         try {
+            // Get database connection
             Connection con = DB.getConnection();
-            String select = "select * from Librarian where UserName= '" + name + "' and Password='"+ password +"'";
-            Statement selectStatement = con.createStatement();
-            ResultSet rs = selectStatement.executeQuery(select);
-          
+
+            // SQL query to validate librarian's credentials
+            String query = "SELECT * FROM librarian WHERE UserName = ? AND Password = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            // Set the parameters for the prepared statement
+            ps.setString(1, name);
+            ps.setString(2, password);
+
+            // Execute the query
+            ResultSet rs = ps.executeQuery();
+
+            // If the query returns a result, the login is successful
             status = rs.next();
+
+            // Close the connection
             con.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();  // Print the error details (could also log it)
         }
         return status;
     }
