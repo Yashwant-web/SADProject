@@ -7,7 +7,14 @@ package mainlibrary;
 
 import javax.swing.*;
 
+/**
+ *
+ * @author Yash
+ */
 public class BookForm extends javax.swing.JFrame {
+
+    // Define a constant for font style
+    private static final String FONT_STYLE = "Ubuntu";
 
     /**
      * Creates new form BookForm
@@ -44,27 +51,27 @@ public class BookForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         Genre = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel1.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel1.setText("Book Name");
 
-        jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel3.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel3.setText("Publisher");
 
-        jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel4.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel4.setText("Author");
 
-        jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel5.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel5.setText("Book Pos");
 
-        jLabel6.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel6.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel6.setText("Shelf");
 
-        jLabel7.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel7.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel7.setText("Row");
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jButton1.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jButton1.setText("ADD BOOK");
         jButton1.addActionListener(evt -> addBook());
 
@@ -74,7 +81,7 @@ public class BookForm extends javax.swing.JFrame {
             LibrarianSuccess.ThisLogined.setVisible(true);
         });
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 20));
+        jLabel2.setFont(new java.awt.Font(FONT_STYLE, 0, 20)); 
         jLabel2.setText("Genre");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
