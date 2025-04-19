@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author bikash
+ * @author Yash
  */
 public class AllStudent extends javax.swing.JFrame {
 
@@ -83,7 +83,7 @@ public class AllStudent extends javax.swing.JFrame {
         EmailRadio = new javax.swing.JRadioButton();
         AllRadio = new javax.swing.JRadioButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
