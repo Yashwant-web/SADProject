@@ -5,8 +5,12 @@
  */
 package mainlibrary;
 
-import java.util.Calendar;
+import java.sql.*;
+import javax.swing.*;
 import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Calendar;
 
 /**
  *
@@ -19,10 +23,11 @@ public class ReturnBookForm extends javax.swing.JFrame {
      */
     public ReturnBookForm() {
         initComponents();
-        Calendar cal = Calendar.getInstance();
-
+        Calendar cal = Calendar.getInstance();  // Get an instance of Calendar
+        
+        // Set current date values for day, month, and year
         IDate.setText(String.valueOf(cal.get(Calendar.DATE)));
-        IMonth.setText(String.valueOf(cal.get(Calendar.MONTH) + 1));
+        IMonth.setText(String.valueOf(cal.get(Calendar.MONTH) + 1));  // Calendar.MONTH is 0-based, so add 1
         IYear.setText(String.valueOf(cal.get(Calendar.YEAR)));
     }
 
@@ -50,16 +55,16 @@ public class ReturnBookForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 20)); 
         jLabel1.setText("Book ID");
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 20)); 
         jLabel2.setText("User ID");
 
-        jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 20)); 
         jLabel4.setText("Return Date");
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Ubuntu", 0, 20)); 
         jButton1.setText("Return");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,7 +72,7 @@ public class ReturnBookForm extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Ubuntu", 0, 18)); 
         jButton2.setText("Back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,64 +97,47 @@ public class ReturnBookForm extends javax.swing.JFrame {
 
         IYear.setEditable(false);
         IYear.setBackground(new java.awt.Color(224, 218, 213));
-        IYear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IYearActionPerformed(evt);
-            }
-        });
 
         IDate.setEditable(false);
         IDate.setBackground(new java.awt.Color(224, 218, 213));
-        IDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IDateActionPerformed(evt);
-            }
-        });
 
-        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 22)); 
         jLabel7.setText("-");
 
-        jLabel8.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Ubuntu", 1, 22)); 
         jLabel8.setText("-");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(254, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(UserID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(IDate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(IMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(IYear, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(79, 79, 79))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
-                        .addGap(290, 290, 290))))
             .addGroup(layout.createSequentialGroup()
+                .addGap(129, 129, 129)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UserID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(IDate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IYear, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            )
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(290, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(290, 290, 290))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,97 +166,57 @@ public class ReturnBookForm extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         int BookIDV;
         BookIDV = Integer.parseInt(BookID.getText());
         int UserIDV;
         UserIDV = Integer.parseInt(UserID.getText());
 
         String IFDate = IYear.getText() + "-" + IMonth.getText() + "-" + IDate.getText();
-        System.out.println(IFDate);
 
-        //Date IFDDate = cal.getDate();
-        if (TransBookDao.BookValidate(BookID.getText()) && TransBookDao.UserValidate(UserID.getText())) {
+        if (TransBookDao.BookValidate(String.valueOf(BookIDV)) && TransBookDao.UserValidate(String.valueOf(UserIDV))) {
             if (TransBookDao.CheckIssuedBook(BookIDV)) {
-
                 if (TransBookDao.ReturnBook(BookIDV, UserIDV) != 0) {
-                    JOptionPane.showMessageDialog(ReturnBookForm.this, "Book is returned by the User!", "Returning Book Successfull!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(ReturnBookForm.this, "Book is returned by the User!", "Returning Book Success!", JOptionPane.INFORMATION_MESSAGE);
                     UserID.setText("");
                     BookID.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(ReturnBookForm.this, "Unable to Return Book!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(ReturnBookForm.this, "Unable to Return Book!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
             } else {
-                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  is NOT Issued by THIS User!", "Issuing Book Error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book is NOT Issued by THIS User!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            if (TransBookDao.UserValidate(UserID.getText())) {
-                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  is NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
-            } else if (TransBookDao.BookValidate(BookID.getText())) {
-                JOptionPane.showMessageDialog(ReturnBookForm.this, "The User is NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
+            if (!TransBookDao.BookValidate(String.valueOf(BookIDV))) {
+                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book is NOT available in Library Database!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!TransBookDao.UserValidate(String.valueOf(UserIDV))) {
+                JOptionPane.showMessageDialog(ReturnBookForm.this, "The User is NOT available in Library Database!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book  and User are NOT available in Library Database!", "Returning Book Error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ReturnBookForm.this, "The Book and User are NOT available in Library Database!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
         LibrarianSuccess.ThisLogined.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
-    private void UserIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UserIDActionPerformed
+    private void UserIDActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
-    private void IYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IYearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IYearActionPerformed
+    private void BookIDActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
-    private void BookIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BookIDActionPerformed
+    private void IYearActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
-    private void IDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IDateActionPerformed
+    private void IDateActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReturnBookForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReturnBookForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReturnBookForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReturnBookForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ReturnBookForm().setVisible(true);
