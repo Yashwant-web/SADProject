@@ -9,15 +9,18 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author bikash
+ * @author Yash
  */
 public class DeleteBook extends javax.swing.JFrame {
 
     /**
      * Creates new form IssueBookForm
      */
-    public DeleteBook() {
+     public DeleteBook() {
         initComponents();
+        setTitle("Delete Book - Library Management System");
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -40,119 +43,112 @@ public class DeleteBook extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 20));
         jLabel1.setText("Book ID");
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 20));
         jLabel2.setText("Password");
 
-        jButton1.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Ubuntu", 0, 20));
         jButton1.setText("Delete");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.addActionListener(evt -> deleteBook());
 
-        jButton2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Ubuntu", 0, 18));
         jButton2.setText("Back");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
+        jButton2.addActionListener(evt -> {
+            this.setVisible(false);
+            LibrarianSuccess.ThisLogined.setVisible(true);
         });
 
-        UserName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UserNameActionPerformed(evt);
-            }
-        });
+        UserName.addActionListener(evt -> {});
 
-        jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 20));
         jLabel3.setText("User ID");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(262, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(290, 290, 290))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(79, 79, 79))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(262, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2))
+                    .addGap(290, 290, 290))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(129, 129, 129)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(79, 79, 79))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(100, 100, 100)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(37, 37, 37))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(121, 121, 121)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(BookID, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(20, 20, 20)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(UserName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addGap(36, 36, 36)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(100, 100, 100)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                    .addComponent(jButton2)
+                    .addGap(37, 37, 37))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String Pass = String.valueOf(password.getPassword());
-        if (LibrarianDao.validate(UserName.getText(), Pass)) {
+    private void deleteBook() {
+        String pass = String.valueOf(password.getPassword()).trim();
+        String username = UserName.getText().trim();
+        String bookIdText = BookID.getText().trim();
 
-            int BookIDV = Integer.parseInt(BookID.getText());
-            if (TransBookDao.CheckIssuedBook(BookIDV)) {
-                JOptionPane.showMessageDialog(DeleteBook.this, "Book is Issued", "Error!", JOptionPane.ERROR_MESSAGE);
+        if (username.isEmpty() || pass.isEmpty() || bookIdText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int bookID;
+        try {
+            bookID = Integer.parseInt(bookIdText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid Book ID format.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (LibrarianDao.validate(username, pass)) {
+            if (TransBookDao.CheckIssuedBook(bookID)) {
+                JOptionPane.showMessageDialog(this, "Book is currently issued and cannot be deleted.", "Operation Blocked", JOptionPane.WARNING_MESSAGE);
             } else {
-                if (BookDao.Delete(BookIDV) != 0) {
-                    JOptionPane.showMessageDialog(DeleteBook.this, "Book is Deleted", "Deleted!", JOptionPane.ERROR_MESSAGE);
+                if (BookDao.Delete(bookID) != 0) {
+                    JOptionPane.showMessageDialog(this, "Book deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     UserName.setText("");
                     password.setText("");
                     BookID.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(DeleteBook.this, "Unable to delete book", "Error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Unable to delete the book.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Authentication failed. Please check credentials.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        LibrarianSuccess.ThisLogined.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void UserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UserNameActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -166,26 +162,11 @@ public class DeleteBook extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DeleteBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DeleteBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DeleteBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(DeleteBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DeleteBook().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new DeleteBook().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,5 +178,4 @@ public class DeleteBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField password;
-    // End of variables declaration//GEN-END:variables
-}
+} 
