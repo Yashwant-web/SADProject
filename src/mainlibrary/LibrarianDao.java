@@ -29,7 +29,8 @@ public class LibrarianDao {
             // Close the connection
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Print the error details (could also log it)
+            // Instead of printing stack trace, log the exception message
+            System.err.println("Error saving librarian details: " + e.getMessage());
         }
         return status;
     }
@@ -54,7 +55,8 @@ public class LibrarianDao {
             // Close the connection
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Print the error details (could also log it)
+            // Instead of printing stack trace, log the exception message
+            System.err.println("Error deleting librarian: " + e.getMessage());
         }
         return status;
     }
@@ -83,7 +85,8 @@ public class LibrarianDao {
             // Close the connection
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Print the error details (could also log it)
+            // Instead of printing stack trace, log the exception message
+            System.err.println("Error validating librarian credentials: " + e.getMessage());
         }
         return status;
     }
