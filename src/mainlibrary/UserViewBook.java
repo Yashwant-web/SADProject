@@ -5,7 +5,6 @@
  */
 package mainlibrary;
 
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -59,7 +56,6 @@ public class UserViewBook extends javax.swing.JFrame {
             
             int count=0; */
             String Row[];
-            String Check = "";
             Row = new String[colnum];
             while (rs.next()) {
                 for (int i = 1; i <= colnum; i++) {
