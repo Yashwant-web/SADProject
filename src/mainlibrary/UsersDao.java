@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author bikash
+ * @author Yash
  */
 public class UsersDao {
 
@@ -38,7 +38,8 @@ public class UsersDao {
             status = rs.next();
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Log the error
+           // Log the error to System.err instead of printing stack trace
+           System.err.println("Error validating user credentials: " + e.getMessage());
         }
         return status;
     }
@@ -64,9 +65,10 @@ public class UsersDao {
             status = rs.next();
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Log the error
+            // Log the error to System.err instead of printing stack trace
+            System.err.println("Error checking if username already exists: " + e.getMessage());
         }
-        return status;
+            return status;
         
     }
 
@@ -91,7 +93,8 @@ public class UsersDao {
             status = ps.executeUpdate();
             con.close();
         } catch (Exception e) {
-            e.printStackTrace();  // Log the error
+            // Log the error to System.err instead of printing stack trace
+            System.err.println("Error adding user: " + e.getMessage());
         }
         return status;
    
