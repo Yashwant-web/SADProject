@@ -9,16 +9,20 @@ public class TransBookDao {
     private static final Logger LOGGER = Logger.getLogger(TransBookDao.class.getName());
     private static final int MAX_BOOKS_PER_USER = 5;
 
-    public static boolean isBookExistsById(String bookId) {
-        try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT 1 FROM Books WHERE BookID = ?");
-            ps.setString(1, bookId);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+    public static boolean CheckIssuedBook(int bookID) {
+        String query = "SELECT 1 FROM IssuedBook WHERE BookID = ?";
+        try (Connection con = DB.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, bookID);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // true if issued
+            }
+
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error validating book by ID: " + bookId, e);
+            LOGGER.log(Level.SEVERE, "Error checking if book is issued. BookID=" + bookID, e);
+            return false; // Fail-safe default
         }
-        return false;
     }
 
     public static boolean isUserExists(String userId) {
@@ -127,4 +131,16 @@ public class TransBookDao {
     public static boolean checkBook(String bookcallno) {
         return isBookExistsById(bookcallno);
     }
-} 
+
+    private static boolean isBookExistsById(String bookId) {
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT 1 FROM Books WHERE BookID = ?");
+            ps.setString(1, bookId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error checking if book exists by ID", e);
+        }
+        return false;
+    }
+}
