@@ -1,148 +1,130 @@
 package mainlibrary;
 
 import java.sql.*;
-import javax.swing.JTextField;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TransBookDao {
 
-    public static boolean checkBook(String bookcallno) {
-        boolean status = false;
-        try {
-            Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("select * from Books where BookID=?");
-            ps.setString(1, bookcallno);
-            ResultSet rs = ps.executeQuery();
-            status = rs.next();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return status;
-    }
+    private static final Logger LOGGER = Logger.getLogger(TransBookDao.class.getName());
+    private static final int MAX_BOOKS_PER_USER = 5;
 
-    public static boolean BookValidate(String BookID) {
-        boolean status = false;
+    public static boolean isBookExistsById(String bookId) {
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Books where BookID = ?");
-            ps.setString(1, BookID);
+            PreparedStatement ps = con.prepareStatement("SELECT 1 FROM Books WHERE BookID = ?");
+            ps.setString(1, bookId);
             ResultSet rs = ps.executeQuery();
-            status = rs.next();
-            con.close();
+            return rs.next();
         } catch (Exception e) {
-            System.out.println(e);
+            LOGGER.log(Level.SEVERE, "Error validating book by ID: " + bookId, e);
         }
-        return status;
+        return false;
     }
 
-    public static boolean UserValidate(String UserID) {
-        boolean status = false;
+    public static boolean isUserExists(String userId) {
         try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Users where UserID = ?");
-            ps.setString(1, UserID);
+            PreparedStatement ps = con.prepareStatement("SELECT 1 FROM Users WHERE UserID = ?");
+            ps.setString(1, userId);
             ResultSet rs = ps.executeQuery();
-            status = rs.next();
-            con.close();
+            return rs.next();
         } catch (Exception e) {
-            System.out.println(e);
+            LOGGER.log(Level.SEVERE, "Error validating user by ID: " + userId, e);
         }
-        return status;
+        return false;
     }
 
-    public static int updatebook(String bookcallno) {
+    public static int updateBookInventory(String callNo) {
         int status = 0;
-        int quantity = 0, issued = 0;
-        try {
-            Connection con = DB.getConnection();
+        try (Connection con = DB.getConnection()) {
+            con.setAutoCommit(false);
 
-            PreparedStatement ps = con.prepareStatement("select quantity,issued from books where callno=?");
-            ps.setString(1, bookcallno);
+            PreparedStatement ps = con.prepareStatement("SELECT quantity, issued FROM books WHERE callno = ? FOR UPDATE");
+            ps.setString(1, callNo);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int quantity = rs.getInt("quantity");
+                int issued = rs.getInt("issued");
+
+                if (quantity > 0) {
+                    PreparedStatement ps2 = con.prepareStatement("UPDATE books SET quantity = ?, issued = ? WHERE callno = ?");
+                    ps2.setInt(1, quantity - 1);
+                    ps2.setInt(2, issued + 1);
+                    ps2.setString(3, callNo);
+                    status = ps2.executeUpdate();
+                    con.commit();
+                } else {
+                    LOGGER.log(Level.WARNING, "Book not available for callNo: " + callNo);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error updating book inventory for callNo: " + callNo, e);
+        }
+        return status;
+    }
+
+    public static int issueBook(int bookId, int userId, String issueDate, String returnDate) {
+        if (!isBookExistsById(String.valueOf(bookId))) return -1;
+        if (!isUserExists(String.valueOf(userId))) return -2;
+        if (isBookAlreadyIssued(bookId)) return -3;
+        if (!canUserBorrowMoreBooks(userId)) return -4;
+
+        int status = 0;
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO IssuedBook (BookID, UserID, IssueDate, ReturnDate) VALUES (?, ?, ?, ?)");
+            ps.setInt(1, bookId);
+            ps.setInt(2, userId);
+            ps.setString(3, issueDate);
+            ps.setString(4, returnDate);
+            status = ps.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error issuing book. BookID=" + bookId + ", UserID=" + userId, e);
+        }
+        return status;
+    }
+
+    public static int returnBook(int bookId, int userId) {
+        int status = 0;
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("DELETE FROM IssuedBook WHERE BookID = ? AND UserID = ?");
+            ps.setInt(1, bookId);
+            ps.setInt(2, userId);
+            status = ps.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error returning book. BookID=" + bookId + ", UserID=" + userId, e);
+        }
+        return status;
+    }
+
+    public static boolean isBookAlreadyIssued(int bookId) {
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT 1 FROM IssuedBook WHERE BookID = ?");
+            ps.setInt(1, bookId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error checking issued status for BookID=" + bookId, e);
+        }
+        return false;
+    }
+
+    public static boolean canUserBorrowMoreBooks(int userId) {
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT BookNo FROM Book_Count WHERE UserID = ?");
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                quantity = rs.getInt("quantity");
-                issued = rs.getInt("issued");
+                int num = rs.getInt("BookNo");
+                return num < MAX_BOOKS_PER_USER;
             }
-
-            if (quantity > 0) {
-                PreparedStatement ps2 = con.prepareStatement("update books set quantity=?,issued=? where callno=?");
-                ps2.setInt(1, quantity - 1);
-                ps2.setInt(2, issued + 1);
-                ps2.setString(3, bookcallno);
-
-                status = ps2.executeUpdate();
-            }
-            con.close();
         } catch (Exception e) {
-            System.out.println(e);
+            LOGGER.log(Level.SEVERE, "Error checking book limit for UserID=" + userId, e);
         }
-        return status;
+        return false;
     }
 
-    public static int IssueBook(int BookID, int UserID, String IDate, String RDate) {
-        int status = 0;
-        try {
-
-            Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("insert into IssuedBook values(?,?,?,?)");
-            ps.setInt(1, BookID);
-            ps.setInt(2, UserID);
-            ps.setString(3, IDate);
-            ps.setString(4, RDate);
-            status = ps.executeUpdate();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return status;
+    // Legacy wrapper for backward compatibility
+    public static boolean checkBook(String bookcallno) {
+        return isBookExistsById(bookcallno);
     }
-
-    public static int ReturnBook(int BookID, int UserID) {
-        int status = 0;
-        try {
-
-            Connection con = DB.getConnection();
-            PreparedStatement ps = con.prepareStatement("delete from IssuedBook where BookID=? and UserID=?");
-            ps.setInt(1, BookID);
-            ps.setInt(2, UserID);
-            status = ps.executeUpdate();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return status;
-    }
-
-    public static boolean CheckIssuedBook(int BookID) {
-        boolean status = false;
-        try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from IssuedBook  where BookID=?");
-            ps.setInt(1, BookID);
-            ResultSet rs = ps.executeQuery();
-            status = rs.next();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return status;
-    }
-
-    public static int Check(int UserID) {
-        boolean status = false;
-        int num = 0;
-        try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select * from Book_Count UserID=?");
-            ps.setInt(2, UserID);
-            ResultSet rs = ps.executeQuery();
-            status = rs.next();
-            num = rs.getInt("BookNo");
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        if (num == 5) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-}
+} 
