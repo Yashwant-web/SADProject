@@ -69,7 +69,6 @@ public class AllStudent extends javax.swing.JFrame {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         buttonGroup = new javax.swing.ButtonGroup();

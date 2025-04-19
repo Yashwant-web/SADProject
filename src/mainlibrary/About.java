@@ -13,7 +13,6 @@ public class About extends javax.swing.JFrame {
         setResizable(false);
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
         JScrollPane developerScrollPane;
         JScrollPane headerScrollPane;
